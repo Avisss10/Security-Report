@@ -1,0 +1,45 @@
+### LOGIN ADMIN
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "nip": "123",
+  "password": "1234"
+}
+
+### LOGIN SECURITY
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "nip": "239",
+  "password": "1234"
+}
+
+### GET semua laporan ADMIN
+GET http://localhost:5000/api/laporan
+
+### GET arsip laporan (7 hari terakhir) ADMIN
+GET http://localhost:5000/api/laporan/arsip
+
+### GET arsip laporan Filtered by jenis and id_cabang ADMIN
+GET http://localhost:5000/api/laporan/arsip?jenis=dalam gedung&id_cabang=1&dari=2025-06-15&sampai=2025-06-21
+
+### POST laporan (tanpa foto dulu) SECURITY
+POST http://localhost:5000/api/laporan
+Content-Type: application/json
+
+{
+  "id_user": 5,
+  "id_cabang": 2,
+  "jenis_laporan": "kegiatan",
+  "judul_laporan": "Tes Laporan REST",
+  "kondisi_cuaca": "Cerah",
+  "deskripsi_laporan": "Ini laporan percobaan via REST Client"
+}
+
+### GET laporan by ID
+GET http://localhost:5000/api/laporan/70
+
+### DELETE laporan (mobile)
+DELETE http://localhost:5000/api/laporan/70/5

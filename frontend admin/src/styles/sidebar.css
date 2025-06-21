@@ -1,0 +1,152 @@
+/* Menu Sidebar Styles - Updated to match theme */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2.3rem;
+    height: 94vh;
+}
+
+.logo {
+    text-align: center;
+    padding: 20px;
+    color: #667eea;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+
+.logo-icon {
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.menu--list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 15px;
+}
+
+.menu--list .item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    color: #495057;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu--list .item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.menu--list .item:hover::before {
+    left: 0;
+}
+
+.menu--list .item:hover {
+    color: white;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.menu--list .item.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    transform: translateX(5px);
+}
+
+.menu--list .item.active::before {
+    display: none;
+}
+
+.icon {
+    margin-right: 5px;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.menu--list .item:hover .icon,
+.menu--list .item.active .icon {
+    transform: scale(1.1);
+}
+
+/* Logout button special styling */
+.menu--list .logout {
+    color: #ef4444;
+    margin-top: auto;
+    font-weight: 500;
+}
+
+.menu--list .logout::before {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.menu--list .logout:hover {
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.menu--list .logout.active {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .menu--list {
+        gap: 12px;
+        padding: 0 10px;
+    }
+    
+    .menu--list .item {
+        padding: 10px 15px;
+        font-size: 0.95rem;
+        gap: 12px;
+    }
+    
+    .logo {
+        padding: 15px;
+        font-size: 1.1rem;
+        gap: 15px;
+    }
+    
+    .logo-icon {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .menu--list .item {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        gap: 10px;
+    }
+    
+    .icon {
+        font-size: 1rem;
+    }
+}
