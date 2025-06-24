@@ -47,8 +47,8 @@ export const createLaporan = async (req, res) => {
 
     // Insert laporan
     const [result] = await pool.query(
-      `INSERT INTO laporan (id_user, id_cabang, jenis_laporan, judul_laporan, kondisi_cuaca, deskripsi_laporan) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO laporan (id_user, id_cabang, jenis_laporan, judul_laporan, kondisi_cuaca, deskripsi_laporan, tanggal_laporan, waktu_laporan, hari_laporan) 
+       VALUES (?, ?, ?, ?, ?, ?, CURDATE(), CURTIME(), DAYNAME(CURDATE()))`,
       [id_user, id_cabang, jenis_laporan, judul_laporan, kondisi_cuaca, deskripsi_laporan]
     );
 
@@ -100,24 +100,26 @@ export const getDashboardLaporan = async (req, res) => {
   const { id_user, id_cabang } = req.params;
   try {
     const [rows] = await pool.query(`
-      SELECT l.*, c.nama_cabang, u.nama_user,
-             GROUP_CONCAT(f.foto_path) AS foto_paths
+      SELECT l.*, c.nama_cabang, u.nama_user, u.nip
       FROM laporan l
       JOIN user u ON l.id_user = u.id_user
       JOIN cabang c ON u.id_cabang = c.id_cabang
-      LEFT JOIN foto_laporan f ON l.id_laporan = f.id_laporan
       WHERE DATE(l.tanggal_laporan) = CURDATE()
         AND u.id_user = ? AND u.id_cabang = ?
-      GROUP BY l.id_laporan
       ORDER BY l.waktu_laporan DESC
     `, [id_user, id_cabang]);
 
-    const laporan = rows.map(row => ({
-      ...row,
-      foto: row.foto_paths ? row.foto_paths.split(',') : []
+    // Fetch photos separately for each laporan
+    const laporanWithFotos = await Promise.all(rows.map(async (row) => {
+      const [fotos] = await pool.query('SELECT id_foto, foto_path FROM foto_laporan WHERE id_laporan = ?', [row.id_laporan]);
+      return {
+        ...row,
+        foto: fotos,
+        canDelete: row.id_user === Number(id_user)
+      };
     }));
 
-    res.json(laporan);
+    res.json(laporanWithFotos);
   } catch (err) {
     res.status(500).json({ message: 'Gagal mengambil laporan', error: err.message });
   }
@@ -207,16 +209,33 @@ export const updateLaporan = async (req, res) => {
 export const deleteFoto = async (req, res) => {
   const { id } = req.params;
   try {
+
+    // Pastikan id berupa angka
+    if (isNaN(Number(id))) {
+      return res.status(400).json({ message: 'ID foto tidak valid' });
+    }
+
+    // Cari foto berdasarkan id_foto
     const [rows] = await pool.query('SELECT foto_path FROM foto_laporan WHERE id_foto = ?', [id]);
-    if (rows.length === 0) return res.status(404).json({ message: 'Foto tidak ditemukan' });
 
+    if (!rows || rows.length === 0) {
+      return res.status(404).json({ message: 'Foto tidak ditemukan' });
+    }
     const filename = rows[0].foto_path;
-
+    
+    // Hapus data di database
     await pool.query('DELETE FROM foto_laporan WHERE id_foto = ?', [id]);
-    await fs.unlink(`./uploads/${filename}`).catch(() => null); // ignore if file not found
 
+    // Hapus file fisik jika ada
+    try {
+      const fs = await import('fs/promises');
+      await fs.unlink(`./uploads/${filename}`);
+    } catch (fileErr) {
+      console.warn('File not found or failed to delete:', filename);
+    }
     res.json({ message: 'Foto berhasil dihapus' });
   } catch (err) {
+    console.error('DELETE FOTO ERROR:', err);
     res.status(500).json({ message: 'Gagal hapus foto', error: err.message });
   }
 };

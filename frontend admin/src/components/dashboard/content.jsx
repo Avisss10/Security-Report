@@ -6,7 +6,6 @@ import '../../styles/content.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 const Content = () => {
   const [laporanHariIni, setLaporanHariIni] = useState([]);
@@ -21,7 +20,7 @@ const Content = () => {
 
   const fetchLaporanHariIni = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/laporan/today`);
+      const res = await axios.get(`http://localhost:5000/api/laporan/today`);
       setLaporanHariIni(res.data);
       setFilteredLaporan(res.data);
     } catch (err) {
@@ -32,7 +31,7 @@ const Content = () => {
 
   const fetchCabangOptions = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/cabang`);
+      const res = await axios.get(`http://localhost:5000/api/cabang`);
       // Assuming the API returns an array of cabang objects with a 'nama_cabang' property
       const cabangNames = res.data.map(cabang => cabang.nama_cabang).filter(Boolean);
       setCabangOptions(cabangNames);
@@ -44,7 +43,7 @@ const Content = () => {
 
   const handleDeleteLaporan = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/laporan/${id}`);
+      await axios.delete(`http://localhost:5000/api/laporan/${id}`);
       setLaporanHariIni(prev => prev.filter(l => l.id_laporan !== id));
       setFilteredLaporan(prev => prev.filter(l => l.id_laporan !== id));
       toast.success('Laporan berhasil dihapus');

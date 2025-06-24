@@ -43,3 +43,13 @@ GET http://localhost:5000/api/laporan/70
 
 ### DELETE laporan (mobile)
 DELETE http://localhost:5000/api/laporan/70/5
+
+### Test hapus foto yang ada
+DELETE http://localhost:5000/api/laporan/foto/92
+Accept: application/json
+
+###
+
+# Test hapus foto yang tidak ada
+DELETE http://localhost:5000/api/laporan/foto/999999
+Accept: application/json

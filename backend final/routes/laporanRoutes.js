@@ -1,4 +1,3 @@
-// routes/laporanRoutes.js
 import express from 'express';
 import {
   getAllLaporan,
@@ -19,6 +18,8 @@ import uploadSingle from '../middleware/uploadFoto.js'; // untuk single upload a
 
 const router = express.Router();
 
+// 🟣 [Mobile] Hapus satu foto (PASTIKAN INI DI ATAS ROUTE :id)
+router.delete('/foto/:id', deleteFoto);
 
 // 🟣 [Mobile] Dashboard Laporan Hari Ini
 router.get('/dashboard/:id_user/:id_cabang', getDashboardLaporan);
@@ -35,7 +36,6 @@ router.get('/jenis-laporan', getJenisLaporan);
 
 // 🟣 [Admin] Export (kalau ada)
 router.get('/export', (req, res) => {
-  // Placeholder, jika kamu punya laporanController.exportLaporan
   res.json({ message: 'Fitur export belum diimplementasi' });
 });
 
@@ -67,8 +67,5 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'Gagal hapus laporan', error: err.message });
   }
 });
-
-// 🟣 [Mobile] Hapus satu foto
-router.delete('/foto/:id', deleteFoto);
 
 export default router;
