@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../../styles/post.css';
-import ConfirmModal from '../delConfirm.jsx';
-import profileImage from '../../img/profile.jpeg';
+//import ConfirmModal from '../delConfirm.jsx';
+//import profileImage from '../../img/profile.jpeg';
 
 const Post = ({
   nama_user,
@@ -29,11 +29,11 @@ const Post = ({
     const biru = ['STO Sunter', 'STO Kelapa Gading', 'Yanum Kelapa Gading'];
     const hitam = ['STO Kota', 'STO Muara Karang'];
 
-    if (merah.some(name => namaCabang.includes(name))) return 'header-merah';
-    if (hijau.some(name => namaCabang.includes(name))) return 'header-hijau';
-    if (ungu.some(name => namaCabang.includes(name))) return 'header-ungu';
-    if (biru.some(name => namaCabang.includes(name))) return 'header-biru';
-    if (hitam.some(name => namaCabang.includes(name))) return 'header-hitam';
+    if (merah.some(name => namaCabang.includes(name))) return 'border-merah';
+    if (hijau.some(name => namaCabang.includes(name))) return 'border-hijau';
+    if (ungu.some(name => namaCabang.includes(name))) return 'border-ungu';
+    if (biru.some(name => namaCabang.includes(name))) return 'border-biru';
+    if (hitam.some(name => namaCabang.includes(name))) return 'border-hitam';
     return '';
   };
 
@@ -78,20 +78,24 @@ const Post = ({
   }, []);
 
   return (
-    <div className='post'>
-      <div className={`post-header ${getColorClass(nama_cabang)}`}>
+    <div className={`post ${getColorClass(nama_cabang)}`}>
+      <div className="post-header">
         <div className="post-user">
-          <img src={profileImage} alt="Profile" className="post-avatar" />
+          <div className="post-avatar">
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#666">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
           <div className="post-user-info">
             <span className='post-name'>{nama_user}</span>
-            <span className='post-username'>· {nip}</span>
-            <span className='post-location'>· {nama_cabang}</span>
+            <span className='post-username'>@{nip}</span>
+            <span className='post-location'>• {nama_cabang}</span>
           </div>
         </div>
 
         <div className="post-menu" ref={menuRef}>
           <button className="menu-button" onClick={toggleMenu}>
-            <svg viewBox="0 0 24 24" width="18" height="18">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
               <circle cx="5" cy="12" r="2"></circle>
               <circle cx="12" cy="12" r="2"></circle>
               <circle cx="19" cy="12" r="2"></circle>
@@ -128,15 +132,23 @@ const Post = ({
       </div>
 
       <div className="post-footer">
-        <span className='post-time'>{hari} · {formatJam(waktu)} · {formatTanggal(tanggal)}</span>
+        <span className='post-time'>{hari} • {formatJam(waktu)} • {formatTanggal(tanggal)}</span>
       </div>
 
-      <ConfirmModal
-        isOpen={isConfirmOpen}
-        onConfirm={handleConfirmDelete}
-        onCancel={handleCancelDelete}
-        message="Yakin ingin menghapus laporan ini?"
-      />
+      {isConfirmOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="confirm-modal">
+              <h3>Konfirmasi</h3>
+              <p>Yakin ingin menghapus laporan ini?</p>
+              <div className="modal-buttons">
+                <button onClick={handleCancelDelete} className="cancel-btn">Batal</button>
+                <button onClick={handleConfirmDelete} className="confirm-btn">Hapus</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

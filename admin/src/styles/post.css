@@ -7,6 +7,8 @@
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   position: relative;
+  /* Add thicker default left border */
+  border-left: 8px solid #e1e8ed;
 }
 
 /* Header Section */
@@ -15,9 +17,11 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 12px;
-  padding: 8px 16px;
-  border-radius: 8px 8px 0 0;
-  color: white;
+  padding: 0 8px 0 8px;
+  /* Remove colored background */
+  background-color: transparent;
+  color: #0f1419; /* Change text color back to dark */
+  border-radius: 0; /* Remove border radius */
 }
 
 .post-user {
@@ -31,6 +35,10 @@
   border-radius: 50%;
   margin-right: 12px;
   object-fit: cover;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .post-user-info {
@@ -47,7 +55,7 @@
   color: #0f1419;
 }
 
-.post-username, 
+.post-username,
 .post-location {
   color: #536471;
   font-size: 0.9em;
@@ -130,6 +138,16 @@
   color: #0f1419;
 }
 
+.post-divider {
+  color: #536471;
+  margin: 8px 0;
+  font-size: 0.9em;
+}
+
+.post-description {
+  margin-top: 8px;
+}
+
 /* Post Image */
 .post-image {
   max-width: 50%;
@@ -146,12 +164,48 @@
   transform: scale(1.02);
 }
 
+.post-image-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.post-image {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
 /* Footer Section */
 .post-footer {
   color: #536471;
   font-size: 0.9em;
   display: flex;
   justify-content: flex-end;
+}
+
+/* Left border color classes for branch differentiation */
+.post.border-merah {
+  border-left: 8px solid #ff4d4d !important; /* Red - thicker */
+}
+
+.post.border-hijau {
+  border-left: 8px solid #4CAF50 !important; /* Green - thicker */
+}
+
+.post.border-ungu {
+  border-left: 8px solid #800080 !important; /* Purple - thicker */
+}
+
+.post.border-biru {
+  border-left: 8px solid #2196F3 !important; /* Blue - thicker */
+}
+
+.post.border-hitam {
+  border-left: 8px solid #000000 !important; /* Black - thicker */
 }
 
 /* Modal Components */
@@ -172,6 +226,57 @@
   position: relative;
 }
 
+.confirm-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 300px;
+}
+
+.confirm-modal h3 {
+  margin: 0 0 10px 0;
+  color: #0f1419;
+}
+
+.confirm-modal p {
+  margin: 0 0 20px 0;
+  color: #536471;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.cancel-btn, .confirm-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.cancel-btn {
+  background-color: #f0f0f0;
+  color: #0f1419;
+}
+
+.cancel-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.confirm-btn {
+  background-color: #f4212e;
+  color: white;
+}
+
+.confirm-btn:hover {
+  background-color: #d91e2a;
+}
+
 .modal-image {
   max-width: 90vw;
   max-height: 80vh;
@@ -190,40 +295,4 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
-}
-
-.post-image-grid {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.post-image {
-  width: 150px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* Header color classes for branch differentiation */
-.header-merah {
-  background-color: #ff4d4d !important; /* Red */
-}
-
-.header-hijau {
-  background-color: #4CAF50 !important; /* Green */
-}
-
-.header-ungu {
-  background-color: #800080 !important; /* Purple */
-}
-
-.header-biru {
-  background-color: #2196F3 !important; /* Blue */
-}
-
-.header-hitam {
-  background-color: #000000 !important; /* Black */
 }
