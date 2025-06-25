@@ -82,7 +82,7 @@ Content-Type: application/json
 }
 
 ### Upload Foto ke Laporan ID tertentu (ADMIN)
-POST http://localhost:5000/api/laporan/91/foto
+POST http://localhost:5000/api/laporan/94/foto
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW

@@ -105,9 +105,9 @@ export const getDashboardLaporan = async (req, res) => {
       JOIN user u ON l.id_user = u.id_user
       JOIN cabang c ON u.id_cabang = c.id_cabang
       WHERE DATE(l.tanggal_laporan) = CURDATE()
-        AND u.id_user = ? AND u.id_cabang = ?
+        AND u.id_cabang = ?
       ORDER BY l.waktu_laporan DESC
-    `, [id_user, id_cabang]);
+    `, [id_cabang]);
 
     // Fetch photos separately for each laporan
     const laporanWithFotos = await Promise.all(rows.map(async (row) => {
@@ -260,6 +260,12 @@ export const tambahFotoLaporan = async (req, res) => {
   // Ambil id_laporan dari param jika ada, atau dari body jika tidak ada param
   const id_laporan = req.params.id || req.body.id_laporan;
   try {
+    // Cek apakah id_laporan ada di database
+    const [cek] = await pool.query('SELECT id_laporan FROM laporan WHERE id_laporan = ?', [id_laporan]);
+    if (cek.length === 0) {
+      return res.status(404).json({ message: 'Laporan tidak ditemukan' });
+    }
+
     let values = [];
     // Jika upload multiple (req.files), gunakan map
     if (req.files && req.files.length > 0) {
