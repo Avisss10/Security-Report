@@ -9,13 +9,14 @@ import Archive from './components/archive/Archive';
 import './App.css';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return !!localStorage.getItem('user');
+  });
 
   // Cek apakah user sudah login saat pertama kali render
   useEffect(() => {
-    // Clear localStorage on app start to force login
-    localStorage.removeItem('user');
-    setIsAuthenticated(false);
+    // Tidak perlu clear localStorage di sini!
+    setIsAuthenticated(!!localStorage.getItem('user'));
   }, []);
 
   // Simpan data user ke localStorage saat login
@@ -40,7 +41,8 @@ const App = () => {
 
   // Route yang hanya bisa diakses jika login
   const ProtectedRoute = ({ element }) => {
-    return isAuthenticated ? element : <Navigate to="/login" />;
+    const user = localStorage.getItem('user');
+    return user ? element : <Navigate to="/login" />;
   };
 
   // Komponen logout yang langsung men-trigger logout

@@ -40,6 +40,7 @@ const Login = ({ onLogin }) => {
 
     // Redirect ke dashboard
     toast.success('Login berhasil');
+    localStorage.setItem('user', JSON.stringify(user));
     setTimeout(() => {
       navigate('/dashboard');
     }, 1000);

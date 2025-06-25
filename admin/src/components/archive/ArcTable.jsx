@@ -97,6 +97,10 @@ const ArchiveTable = ({ laporan, onDelete }) => {
           isOpen={isDetailOpen}
           laporan={selectedLaporan}
           onClose={handleCloseDetail}
+          onDelete={(id) => {
+          onDelete(id);
+          handleCloseDetail();
+          }}
         />
       )}
     </div>

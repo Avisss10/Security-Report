@@ -15,6 +15,82 @@ Content-Type: application/json
   "nip": "239",
   "password": "1234"
 }
+### ADD LAPORAN (ADMIN)
+### STO Mangga Besar, Pademangan , Mangga Dua
+POST http://localhost:5000/api/laporan
+Content-Type: application/json
+
+{
+  "id_user": 5,
+  "id_cabang": 2,
+  "jenis_laporan": "Dalam Gedung",
+  "judul_laporan": "Kondisi Lorong",
+  "kondisi_cuaca": "Berawan",
+  "deskripsi_laporan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+}
+
+### WITEL & STO Tanjung Priok
+POST http://localhost:5000/api/laporan
+Content-Type: application/json
+
+{
+  "id_user": 4,
+  "id_cabang": 1,
+  "jenis_laporan": "Dalam Gedung",
+  "judul_laporan": "Kondisi Lorong",
+  "kondisi_cuaca": "Berawan",
+  "deskripsi_laporan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+}
+
+### STO Cilincing , STO Marunda , Gudang Marunda
+POST http://localhost:5000/api/laporan
+Content-Type: application/json
+
+{
+  "id_user": 6,
+  "id_cabang": 3,
+  "jenis_laporan": "Dalam Gedung",
+  "judul_laporan": "Kondisi Lorong",
+  "kondisi_cuaca": "Berawan",
+  "deskripsi_laporan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+}
+
+### STO Sunter , STO Kelapa Gading , Yanum Kelapa Gading
+POST http://localhost:5000/api/laporan
+Content-Type: application/json
+
+{
+  "id_user": 15,
+  "id_cabang": 4,
+  "jenis_laporan": "Dalam Gedung",
+  "judul_laporan": "Kondisi Lorong",
+  "kondisi_cuaca": "Berawan",
+  "deskripsi_laporan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+}
+
+### STO Kota , STO Muara Karang
+POST http://localhost:5000/api/laporan
+Content-Type: application/json
+
+{
+  "id_user": 21,
+  "id_cabang": 5,
+  "jenis_laporan": "Dalam Gedung",
+  "judul_laporan": "Kondisi Lorong",
+  "kondisi_cuaca": "Berawan",
+  "deskripsi_laporan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+}
+
+### Upload Foto ke Laporan ID tertentu (ADMIN)
+POST http://localhost:5000/api/laporan/91/foto
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="foto"; filename="lapor1.png"
+Content-Type: image/png
+
+< ./lapor1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ### GET semua laporan ADMIN
 GET http://localhost:5000/api/laporan
@@ -53,3 +129,4 @@ Accept: application/json
 # Test hapus foto yang tidak ada
 DELETE http://localhost:5000/api/laporan/foto/999999
 Accept: application/json
+

@@ -60,7 +60,7 @@ export const createLaporan = async (req, res) => {
       await pool.query('INSERT INTO foto_laporan (id_laporan, foto_path) VALUES ?', [values]);
     }
 
-    res.json({ message: 'Laporan berhasil disimpan' });
+    res.json({ message: 'Laporan berhasil disimpan', id_laporan: result.insertId });
   } catch (err) {
     console.error('CREATE LAPORAN ERROR:', err);
     res.status(500).json({ message: 'Gagal simpan laporan', error: err.message });
@@ -155,7 +155,20 @@ export const getLaporanById = async (req, res) => {
 };
 
 // ==============================
-// ❌ DELETE LAPORAN
+// ❌ DELETE LAPORAN (ADMIN, tanpa cek user)
+// ==============================
+export const deleteLaporanAdmin = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query('DELETE FROM laporan WHERE id_laporan = ?', [id]);
+    res.json({ message: 'Laporan berhasil dihapus (admin)' });
+  } catch (err) {
+    res.status(500).json({ message: 'Gagal hapus laporan', error: err.message });
+  }
+};
+
+// ==============================
+// ❌ DELETE LAPORAN (SECURITY)
 // ==============================
 export const deleteLaporan = async (req, res) => {
   const { id_laporan, id_user } = req.params;
@@ -244,14 +257,26 @@ export const deleteFoto = async (req, res) => {
 // ➕ TAMBAH FOTO KE LAPORAN
 // ==============================
 export const tambahFotoLaporan = async (req, res) => {
-  const { id_laporan } = req.body;
+  // Ambil id_laporan dari param jika ada, atau dari body jika tidak ada param
+  const id_laporan = req.params.id || req.body.id_laporan;
   try {
-    const values = req.files.map(file => [id_laporan, file.filename]);
+    let values = [];
+    // Jika upload multiple (req.files), gunakan map
+    if (req.files && req.files.length > 0) {
+      values = req.files.map(file => [id_laporan, file.filename]);
+    }
+    // Jika upload single (req.file), push satu data
+    else if (req.file) {
+      values = [[id_laporan, req.file.filename]];
+    } else {
+      return res.status(400).json({ message: 'Tidak ada file yang diupload' });
+    }
+
     await pool.query(
       'INSERT INTO foto_laporan (id_laporan, foto_path) VALUES ?', [values]
     );
 
-    res.json({ message: 'Foto baru berhasil ditambahkan' });
+    res.json({ message: 'Foto berhasil ditambahkan' });
   } catch (err) {
     res.status(500).json({ message: 'Gagal tambah foto', error: err.message });
   }

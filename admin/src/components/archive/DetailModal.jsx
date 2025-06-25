@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ConfirmModal from '../delConfirm.jsx';
 import '../../styles/detailModal.css';
 import profileImage from '../../img/profile.jpeg';
 
-const DetailModal = ({ isOpen, laporan, onClose }) => {
+const DetailModal = ({ isOpen, laporan, onClose, onDelete }) => {
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
   if (!isOpen || !laporan) return null;
 
   const formatTanggal = (isoDate) => {
@@ -19,6 +22,18 @@ const DetailModal = ({ isOpen, laporan, onClose }) => {
     if (!jamString) return '-';
     const [hour, minute] = jamString.split(':');
     return `${hour}:${minute} WIB`;
+  };
+
+  const handleDelete = () => setIsConfirmOpen(true);
+  const handleCancel = () => setIsConfirmOpen(false);
+  const handleConfirm = () => {
+    onDelete && onDelete({
+      id_laporan: laporan.id_laporan,
+      id_cabang: laporan.id_cabang,
+      id_user: laporan.id_user
+    });
+    setIsConfirmOpen(false);
+    onClose();
   };
 
   return (
@@ -108,10 +123,30 @@ const DetailModal = ({ isOpen, laporan, onClose }) => {
         </div>
 
         <div className="modal-footer">
+          <button
+            className="delete-modal-btn"
+            onClick={handleDelete}>
+            Delete
+          </button>
           <button className="close-modal-btn" onClick={onClose}>
             Tutup
           </button>
         </div>
+
+        <ConfirmModal
+          isOpen={isConfirmOpen}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+          message={
+            <>
+              Yakin ingin menghapus laporan ini?<br />
+              <span style={{fontSize:12, color:'#666'}}>
+                ID Laporan: <b>{laporan.id_laporan}</b><br />
+              </span>
+            </>
+          }
+          customDeleteBtn // custom prop untuk styling
+        />
       </div>
     </div>
   );

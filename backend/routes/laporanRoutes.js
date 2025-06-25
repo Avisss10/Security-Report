@@ -8,6 +8,7 @@ import {
   createLaporan,
   updateLaporan,
   deleteLaporan,
+  deleteLaporanAdmin,
   deleteFoto,
   tambahFotoLaporan,
   getTodayLaporan
@@ -18,7 +19,7 @@ import uploadSingle from '../middleware/uploadFoto.js'; // untuk single upload a
 
 const router = express.Router();
 
-// 🟣 [Mobile] Hapus satu foto (PASTIKAN INI DI ATAS ROUTE :id)
+// 🟣 [Mobile] Hapus satu foto 
 router.delete('/foto/:id', deleteFoto);
 
 // 🟣 [Mobile] Dashboard Laporan Hari Ini
@@ -33,11 +34,6 @@ router.get('/', getAllLaporan);
 // 🟣 [Admin] Arsip + Filter + Jenis
 router.get('/arsip', getRecentArsip);
 router.get('/jenis-laporan', getJenisLaporan);
-
-// 🟣 [Admin] Export (kalau ada)
-router.get('/export', (req, res) => {
-  res.json({ message: 'Fitur export belum diimplementasi' });
-});
 
 // 🟣 [Admin + Mobile] Ambil Detail Laporan
 router.get('/:id', getLaporanById);
@@ -58,14 +54,6 @@ router.put('/:id', updateLaporan);
 router.delete('/:id_laporan/:id_user', deleteLaporan);
 
 // 🟣 [Admin] Hapus laporan langsung (tanpa cek user)
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    await deleteLaporan(id); // pakai model
-    res.json({ message: 'Laporan berhasil dihapus (admin)' });
-  } catch (err) {
-    res.status(500).json({ message: 'Gagal hapus laporan', error: err.message });
-  }
-});
+router.delete('/:id', deleteLaporanAdmin);
 
 export default router;

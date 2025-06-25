@@ -4,11 +4,26 @@ import ArchiveTable from './ArcTable';
 import ArcSearch from './arcSearch';
 import ArcHeader from './arcHeader';
 
+// ...existing code...
 const Archive = () => {
   const [laporan, setLaporan] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentFilter, setCurrentFilter] = useState({ dari: null, sampai: null, jenis: null, id_cabang: null });
+  const [cabangList, setCabangList] = useState([]);
+
+  // Ambil daftar cabang saat mount
+  useEffect(() => {
+    const fetchCabang = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/cabang');
+        setCabangList(res.data);
+      } catch (err) {
+        console.error('Gagal ambil data cabang:', err);
+      }
+    };
+    fetchCabang();
+  }, []);
 
   const fetchData = async (filterParams = null) => {
     try {
@@ -60,6 +75,13 @@ const Archive = () => {
     fetchData();
   }, []);
 
+  // Fungsi untuk dapatkan nama cabang dari id
+  const getCabangName = (id) => {
+    if (!id) return '';
+    const found = cabangList.find(c => String(c.id_cabang) === String(id));
+    return found ? found.nama_cabang : id;
+  };
+
   const renderFilterDescription = () => {
     const { dari, sampai, jenis, id_cabang } = currentFilter;
     let descriptions = [];
@@ -77,7 +99,7 @@ const Archive = () => {
     }
 
     if (id_cabang) {
-      descriptions.push({ label: 'Cabang', value: id_cabang });
+      descriptions.push({ label: 'Cabang', value: getCabangName(id_cabang) });
     }
 
     if (descriptions.length === 0) {
@@ -110,7 +132,7 @@ const Archive = () => {
     );
   };
 
-  return (
+return (
     <div className="archive-wrapper">
       <ArcHeader/>
       <ArcSearch
