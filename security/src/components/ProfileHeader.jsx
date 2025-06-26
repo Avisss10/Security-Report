@@ -13,6 +13,26 @@ const ProfileHeader = () => {
     location: localStorage.getItem('nama_cabang') || '-',
   };
 
+  // Fungsi normalisasi nama cabang
+  const normalize = (str) => (str || '').toLowerCase().replace(/\s+/g, ' ').trim();
+
+  // Fungsi untuk mapping warna cabang ke gradient (dengan partial match)
+  const getCabangGradient = (cabang) => {
+    const merah = ['Witel', 'STO Tanjung Priok'];
+    const hijau = ['STO Mangga Besar', 'Pademangan', 'Mangga Dua'];
+    const ungu = ['STO Cilincing', 'STO Marunda', 'Gudang Marunda'];
+    const biru = ['STO Sunter', 'STO Kelapa Gading', 'Yanum Kelapa Gading'];
+    const hitam = ['STO Kota', 'STO Muara Karang'];
+
+    const norm = normalize(cabang);
+    if (merah.map(normalize).some(n => norm.includes(n))) return 'from-red-600 to-red-400';
+    if (hijau.map(normalize).some(n => norm.includes(n))) return 'from-green-600 to-green-400';
+    if (ungu.map(normalize).some(n => norm.includes(n))) return 'from-purple-600 to-purple-400';
+    if (biru.map(normalize).some(n => norm.includes(n))) return 'from-blue-600 to-blue-400';
+    if (hitam.map(normalize).some(n => norm.includes(n))) return 'from-gray-800 to-gray-600';
+    return 'from-slate-400 to-slate-200'; // default
+  };
+
   const handleLogoutClick = () => {
     setLogoutModalOpen(true);
   };
@@ -35,7 +55,7 @@ const ProfileHeader = () => {
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden relative">
       {/* Cover Background */}
-      <div className="h-24 bg-gradient-to-r from-purple-600 to-blue-600"></div>
+      <div className={`h-24 bg-gradient-to-r ${getCabangGradient(userInfo.location)}`}></div>
 
       {/* Logout Button */}
       <button
