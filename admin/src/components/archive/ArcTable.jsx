@@ -6,6 +6,15 @@ const ArchiveTable = ({ laporan, onDelete }) => {
   const [selectedLaporan, setSelectedLaporan] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const pageSize = 10; // jumlah data per halaman
+  const totalPages = Math.ceil(laporan.length / pageSize);
+  const paginatedData = laporan.slice((page - 1) * pageSize, page * pageSize);
+
+  // Reset ke halaman 1 jika data berubah
+  React.useEffect(() => { setPage(1); }, [laporan]);
+
   const formatTanggal = (isoDate) => {
     const d = new Date(isoDate);
     return d.toLocaleDateString('id-ID');
@@ -46,8 +55,8 @@ const ArchiveTable = ({ laporan, onDelete }) => {
             </tr>
           </thead>
           <tbody>
-            {laporan.length > 0 ? (
-              laporan.map((item) => (
+            {paginatedData.length > 0 ? (
+              paginatedData.map((item) => (
                 <tr key={item.id_laporan}>
                   <td>{item.id_laporan}</td>
                   <td>{item.nip}</td>
@@ -91,6 +100,108 @@ const ArchiveTable = ({ laporan, onDelete }) => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Controls */}
+      {/* Enhanced Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="pagination-container">
+          {/* Previous Button */}
+          <button
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1}
+            className={`pagination-btn pagination-nav ${page === 1 ? 'disabled' : ''}`}
+          >
+            <span>‹</span>
+            <span className="nav-text">Previous</span>
+          </button>
+
+          {/* Page Numbers */}
+          <div className="pagination-numbers">
+            {(() => {
+              const pages = [];
+              const maxVisible = 5;
+              let start = Math.max(1, page - Math.floor(maxVisible / 2));
+              let end = Math.min(totalPages, start + maxVisible - 1);
+              
+              if (end - start + 1 < maxVisible) {
+                start = Math.max(1, end - maxVisible + 1);
+              }
+
+              // First page and ellipsis
+              if (start > 1) {
+                pages.push(
+                  <button
+                    key={1}
+                    onClick={() => setPage(1)}
+                    className="pagination-btn pagination-number"
+                  >
+                    1
+                  </button>
+                );
+                if (start > 2) {
+                  pages.push(
+                    <span key="ellipsis1" className="pagination-ellipsis">
+                      ...
+                    </span>
+                  );
+                }
+              }
+
+              // Visible pages
+              for (let i = start; i <= end; i++) {
+                pages.push(
+                  <button
+                    key={i}
+                    onClick={() => setPage(i)}
+                    className={`pagination-btn pagination-number ${page === i ? 'active' : ''}`}
+                  >
+                    {i}
+                  </button>
+                );
+              }
+
+              // Last page and ellipsis
+              if (end < totalPages) {
+                if (end < totalPages - 1) {
+                  pages.push(
+                    <span key="ellipsis2" className="pagination-ellipsis">
+                      ...
+                    </span>
+                  );
+                }
+                pages.push(
+                  <button
+                    key={totalPages}
+                    onClick={() => setPage(totalPages)}
+                    className="pagination-btn pagination-number"
+                  >
+                    {totalPages}
+                  </button>
+                );
+              }
+
+              return pages;
+            })()}
+          </div>
+
+          {/* Next Button */}
+          <button
+            onClick={() => setPage(page + 1)}
+            disabled={page === totalPages}
+            className={`pagination-btn pagination-nav ${page === totalPages ? 'disabled' : ''}`}
+          >
+            <span className="nav-text">Next</span>
+            <span>›</span>
+          </button>
+        </div>
+      )}
+
+      {/* Page Info */}
+      {totalPages > 1 && (
+        <div className="pagination-info">
+          Showing page {page} of {totalPages}
+        </div>
+      )}
 
       {selectedLaporan && (
         <DetailModal
