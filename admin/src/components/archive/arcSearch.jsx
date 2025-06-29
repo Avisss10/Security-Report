@@ -14,6 +14,14 @@ const ArchiveSearch = ({ onSearch, filter: propFilter }) => {
   const [cabangList, setCabangList] = useState([]);
   const [jenisList, setJenisList] = useState([]);
 
+  function getTodayLocal() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
   useEffect(() => {
     axios.get('http://localhost:5000/api/cabang')
       .then(res => setCabangList(res.data))
@@ -51,7 +59,7 @@ const ArchiveSearch = ({ onSearch, filter: propFilter }) => {
     let sampaiDate = now;
 
     if (filter.date_range === 'today') {
-      dariDate = new Date(now.toISOString().split('T')[0]); // tanggal hari ini
+      dariDate = now;
     } else if (filter.date_range === '7days') {
       const semingguLalu = new Date();
       semingguLalu.setDate(now.getDate() - 7);
@@ -60,8 +68,8 @@ const ArchiveSearch = ({ onSearch, filter: propFilter }) => {
 
     const finalFilter = {
       ...filter,
-      dari: dariDate ? dariDate.toISOString().split('T')[0] : '',
-      sampai: sampaiDate.toISOString().split('T')[0],
+      dari: dariDate ? getTodayLocal.call(dariDate) : '',
+      sampai: getTodayLocal.call(sampaiDate),
     };
 
     onSearch(finalFilter);

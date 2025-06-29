@@ -11,6 +11,13 @@ const Archive = () => {
   const [currentFilter, setCurrentFilter] = useState({ dari: null, sampai: null, jenis: null, id_cabang: null });
   const [cabangList, setCabangList] = useState([]);
 
+  function getTodayLocal() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
   // Ambil daftar cabang saat mount
   useEffect(() => {
     const fetchCabang = async () => {
@@ -30,7 +37,7 @@ const Archive = () => {
       let params = {};
       if (filterParams) {
         params = { ...filterParams };
-        const today = new Date().toISOString().split('T')[0];
+        const today = getTodayLocal();
         if (!params.dari) {
           params.dari = today;
         }
@@ -38,7 +45,7 @@ const Archive = () => {
           params.sampai = today;
         }
       } else {
-        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        const today = getTodayLocal();
         params = { dari: today, sampai: today };
       }
       const res = await axios.get('http://localhost:5000/api/laporan/arsip', { params });
@@ -53,7 +60,7 @@ const Archive = () => {
   };
 
   const handleFilterSearch = (filter) => {
-    const defaultFilter = { dari: new Date().toISOString().split('T')[0], sampai: new Date().toISOString().split('T')[0], jenis: '', id_cabang: '' };
+    const defaultFilter = { dari: getTodayLocal(), sampai: getTodayLocal(), jenis: '', id_cabang: '' };
     const appliedFilter = filter || defaultFilter;
     fetchData(appliedFilter);
     setCurrentFilter(appliedFilter);
