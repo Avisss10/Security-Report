@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 import '../../styles/cabContent.css';
-import CabHeader from './cabHeader';
 import EditCabangModal from './cabEdit';
 import DelConfirm from '../delConfirm';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CabContent = () => {
+const CabContent = forwardRef ((props, ref) => {
   const [cabangData, setCabangData] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [cabangToEdit, setCabangToEdit] = useState(null);
@@ -54,6 +53,9 @@ const CabContent = () => {
       }
     }
   };
+  useImperativeHandle(ref, () => ({
+    handleAddCabang,
+  }));
 
   // Update cabang
   const handleUpdateCabang = async (updatedCabang) => {
@@ -115,8 +117,6 @@ const CabContent = () => {
 
   return (
     <>
-      <CabHeader onAddCabang={handleAddCabang} />
-
       <div className="cab-content">
         <div className="cabang-table-container">
           <table className="cabang-table">
@@ -173,6 +173,6 @@ const CabContent = () => {
       <ToastContainer position="top-center" />
     </>
   );
-};
+});
 
 export default CabContent;

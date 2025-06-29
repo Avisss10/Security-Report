@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 import '../../styles/secContent.css';
-import SecHeader from './SecHeader';
 import EditSecurityModal from './secEdit';
 import DelConfirm from '../delConfirm';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const SecContent = () => {
+const SecContent = forwardRef((props, ref) => {
   const [securityAccounts, setSecurityAccounts] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [securityToEdit, setSecurityToEdit] = useState(null);
@@ -57,6 +56,9 @@ const SecContent = () => {
       }
     }
   };
+  useImperativeHandle(ref, () => ({
+    handleAddSecurity,
+  }));
 
   // ✏️ Edit security
   const handleOpenEditModal = (security) => {
@@ -115,8 +117,6 @@ const SecContent = () => {
 
   return (
     <>
-      <SecHeader onAddSecurity={handleAddSecurity} />
-
       <div className="sec-content">
         <div className="security-table-container">
           <table className="security-table">
@@ -181,6 +181,6 @@ const SecContent = () => {
       <ToastContainer position="top-center" />
     </>
   );
-};
+});
 
 export default SecContent;

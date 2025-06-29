@@ -1,14 +1,29 @@
-import React from 'react'
-//import SecHeader from './secHeader'
-import SecContent from './secContent';
-import "../../styles/secHeader.css"
+import React, { Suspense, lazy, useRef } from 'react';
+import SecHeader from './SecHeader';
+import "../../styles/secHeader.css";
+const SecContent = lazy(() => import('./secContent'));
 
-const security = () => {
+const Security = () => {
+  const secContentRef = useRef();
+  const handleAddSecurity = (newSecurity) => {
+    if (secContentRef.current) {
+      secContentRef.current.handleAddSecurity(newSecurity);
+    }
+  };
+
   return (
-    <div className='content'>
-      <SecContent />
+    <div>
+      <SecHeader onAddSecurity={handleAddSecurity} />
+      <Suspense 
+        fallback={
+          <div className="table-loading">
+            <div className="loading-spinner"></div>
+          </div>
+        }>
+        <SecContent ref={secContentRef} />
+      </Suspense>
     </div>
-  )
-}
+  );
+};
 
-export default security
+export default Security;

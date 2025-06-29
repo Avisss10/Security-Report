@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import axios from 'axios';
 import ContentHeader from './contentHeader';
 import Post from './post';
 import '../../styles/content.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+const ContentList = lazy(() => import('./ContentList'));
 
 const Content = () => {
   const [laporanHariIni, setLaporanHariIni] = useState([]);
@@ -72,9 +72,9 @@ const Content = () => {
     }
   };
 
-  return (
+return (
     <div className="content">
-      {/* Header with filter */}
+      {/* Header selalu tampil */}
       <ContentHeader
         cabangOptions={cabangOptions}
         selectedCabang={selectedCabang}
@@ -82,37 +82,20 @@ const Content = () => {
         onSearch={handleSearch}
       />
 
-      {/* Filter description */}
-      <div className="filter-description" style={{ marginBottom: '1rem', fontWeight: 'bold' }}>
-        {selectedCabang ? ` ${selectedCabang}` : ''}
-      </div>
-
-      {/* Dashboard content */}
-      {filteredLaporan.length === 0 ? (
-        <p>
-          {selectedCabang
-            ? `Belum ada laporan dari cabang ${selectedCabang}`
-            : 'Belum ada laporan hari ini.'}
-        </p>
-      ) : (
-        filteredLaporan.map((laporan) => (
-          <Post
-            key={laporan.id_laporan}
-            nama_user={laporan.nama_user}
-            nip={laporan.nip}
-            nama_cabang={laporan.nama_cabang}
-            deskripsi={laporan.deskripsi_laporan}
-            jenis={laporan.jenis_laporan}
-            judul={laporan.judul_laporan}
-            cuaca={laporan.kondisi_cuaca}
-            hari={laporan.hari_laporan}
-            waktu={laporan.waktu_laporan}
-            tanggal={laporan.tanggal_laporan}
-            foto_list={laporan.foto_list}
-            onDelete={() => handleDeleteLaporan(laporan.id_laporan)}
-          />
-        ))
-      )}
+      {/* Lazy loading */}
+      <Suspense
+        fallback={
+          <div className="table-loading">
+            <div className="loading-spinner"></div>
+          </div>
+        }
+      >
+        <ContentList
+          filteredLaporan={filteredLaporan}
+          selectedCabang={selectedCabang}
+          handleDeleteLaporan={handleDeleteLaporan}
+        />
+      </Suspense>
       <ToastContainer position="top-center" />
     </div>
   );
