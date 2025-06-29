@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { ImagePlus, Shield } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios';
+import axios from '../utils/axiosInstance';
 import '../styles/toastStyles.css';
 
 const CreateReport = () => {

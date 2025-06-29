@@ -43,12 +43,7 @@ const ProfileHeader = () => {
 
   const handleConfirmLogout = () => {
     setLogoutModalOpen(false);
-    // Clear token/session here if needed
-    localStorage.removeItem('id_cabang');
-    localStorage.removeItem('id_user');
-    localStorage.removeItem('nama_cabang');
-    localStorage.removeItem('nama_user');
-    localStorage.removeItem('nip');
+    localStorage.clear();
     navigate('/login');
   };
 

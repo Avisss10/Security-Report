@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../utils/axiosInstance';
 import ArchiveTable from './ArcTable';
 import ArcSearch from './arcSearch';
 import ArcHeader from './arcHeader';
 
-// ...existing code...
 const Archive = () => {
   const [laporan, setLaporan] = useState([]);
   const [filtered, setFiltered] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/search.css';
-import axios from 'axios';
+import axios from '../../utils/axiosInstance';
 
 const ArchiveSearch = ({ onSearch, filter: propFilter }) => {
   const [filter, setFilter] = useState({

@@ -21,18 +21,18 @@ const Login = () => {
         password,
       });
 
-
-      const { user } = res.data;
+      const { user, token } = res.data;
       if (user.id_level !== 2) {
         toast.error('Hanya user level 2 (security) yang dapat login.');
         return;
       }
-      const { id_user, id_cabang, nama_cabang, nama_user, nip: userNip } = user;
-      localStorage.setItem('id_user', id_user);
-      localStorage.setItem('id_cabang', id_cabang);
-      localStorage.setItem('nama_cabang', nama_cabang);
-      localStorage.setItem('nama_user', nama_user);
-      localStorage.setItem('nip', userNip);
+      // Simpan user info dan token
+      localStorage.setItem('id_user', user.id_user);
+      localStorage.setItem('id_cabang', user.id_cabang);
+      localStorage.setItem('nama_cabang', user.nama_cabang);
+      localStorage.setItem('nama_user', user.nama_user);
+      localStorage.setItem('nip', user.nip);
+      localStorage.setItem('token', token);
 
       navigate('/dashboard');
       toast.success('Login berhasil!');

@@ -1,5 +1,6 @@
 // app.js
 import express from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import laporanRoutes from './routes/laporanRoutes.js';
@@ -7,6 +8,7 @@ import laporanRoutes from './routes/laporanRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import cabangRoutes from './routes/cabangRoutes.js';
 
+dotenv.config();
 const app = express();
 
 // 🧩 Middleware

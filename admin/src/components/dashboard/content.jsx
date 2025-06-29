@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Suspense, lazy } from 'react';
-import axios from 'axios';
+import axios from '../../utils/axiosInstance';
 import ContentHeader from './contentHeader';
 import Post from './post';
 import '../../styles/content.css';

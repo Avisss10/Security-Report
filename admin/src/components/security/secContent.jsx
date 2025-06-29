@@ -3,7 +3,7 @@ import { BiPencil, BiTrash } from 'react-icons/bi';
 import '../../styles/secContent.css';
 import EditSecurityModal from './secEdit';
 import DelConfirm from '../delConfirm';
-import axios from 'axios';
+import axios from '../../utils/axiosInstance';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

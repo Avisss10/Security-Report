@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/secEdit.css';
-import axios from 'axios'; // jangan lupa import axios
+import axios from '../../utils/axiosInstance';
 
 const EditSecurityModal = ({ isOpen, onClose, securityData, onUpdateSecurity }) => {
   const [formData, setFormData] = useState({

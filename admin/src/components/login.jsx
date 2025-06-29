@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/login.css';
-import axios from 'axios';
+import axios from '../utils/axiosInstance'; 
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,40 +17,33 @@ const Login = ({ onLogin }) => {
       toast.error('NIP dan Password harus diisi');
       return;
     }
-
+    
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', {
         nip,
         password,
       });
 
-      // Simpan user ke localStorage (atau context/global state kalau mau)
       const user = res.data.user;
+      const token = res.data.token;
 
-      // Cek level user, hanya izinkan admin atau level 1
-      if (user.nama_level !== 'admin' && user.id_level !== 1) {
-        toast.error('Hanya admin atau level 1 yang dapat login.');
-        return;
-      }
-
+      // Simpan user dan token ke localStorage
       localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
 
-      // Jalankan onLogin jika dikirim dari props
       if (onLogin) onLogin(user);
 
-    // Redirect ke dashboard
-    toast.success('Login berhasil');
-    localStorage.setItem('user', JSON.stringify(user));
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 1000);
-  } catch (err) {
-    if (err.response && err.response.status === 401) {
-      toast.error('NIP atau Password salah.');
-    } else {
-      toast.error('Server error, silakan coba lagi.');
+      toast.success('Login berhasil');
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000);
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        toast.error('NIP atau Password salah.');
+      } else {
+        toast.error('Server error, silakan coba lagi.');
+      }
     }
-  }
 };
 
   return (

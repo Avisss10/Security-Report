@@ -15,9 +15,13 @@ import {
 } from '../controllers/laporanController.js';
 
 import { uploadMultiple } from '../middleware/multerConfig.js';
-import uploadSingle from '../middleware/uploadFoto.js'; // untuk single upload admin
+import uploadSingle from '../middleware/uploadFoto.js';
+import { verifyToken } from '../middleware/authJwt.js';
 
 const router = express.Router();
+
+// Proteksi endpoint laporan
+router.use(verifyToken);
 
 // 🟣 [Mobile] Hapus satu foto 
 router.delete('/foto/:id', deleteFoto);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { MoreVertical } from 'lucide-react';
-import axios from 'axios';
+import axios from '../utils/axiosInstance';
 import { toast } from 'react-toastify';
 import ConfirmDel from './ConfirmDel';
 

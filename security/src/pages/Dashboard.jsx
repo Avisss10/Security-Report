@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import axios from '../utils/axiosInstance';
 import { toast, ToastContainer } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import ReportCard from '../components/ReportCard';

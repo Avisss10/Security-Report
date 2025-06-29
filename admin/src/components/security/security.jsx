@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useRef } from 'react';
-import SecHeader from './SecHeader';
+import SecHeader from './secHeader';
 import "../../styles/secHeader.css";
 const SecContent = lazy(() => import('./secContent'));
 
