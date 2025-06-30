@@ -14,7 +14,7 @@ SECURITY REPORT/
 │
 ├── admin/      # Frontend Admin (React + Vite)
 ├── backend/    # Backend API (Node.js + Express + MySQL)
-├── security/   # Frontend Security/Mobile (React + Vite)
+├── security/   # Frontend Security/Mobile (React + Vite + Tailwind CSS)
 ```
 
 ---
