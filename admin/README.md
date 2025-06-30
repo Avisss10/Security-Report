@@ -1,12 +1,56 @@
-# React + Vite
+# Admin Panel - SECURITY REPORT
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Panel admin untuk aplikasi pelaporan keamanan dan kebersihan. Dibangun dengan React + Vite.
 
-Currently, two official plugins are available:
+## Fitur Utama
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Dashboard:** Ringkasan laporan harian dari seluruh cabang.
+- **Manajemen User Security:** Tambah, edit, hapus akun security.
+- **Manajemen Cabang:** Tambah, edit, hapus data cabang.
+- **Arsip Laporan:** Lihat, filter, dan hapus laporan yang sudah masuk.
+- **Logout:** Keluar dari sistem admin.
 
-## Expanding the ESLint configuration
+## Struktur Folder
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+admin/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── archive/
+│   │   ├── cabang/
+│   │   ├── dashboard/
+│   │   ├── security/
+│   ├── styles/
+│   ├── utils/
+│   ├── App.jsx
+│   └── main.jsx
+├── package.json
+└── vite.config.js
+```
+
+## Cara Menjalankan
+
+1. Masuk ke folder `admin/`
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Jalankan aplikasi:
+   ```sh
+   npm run dev
+   ```
+4. Buka di browser: [http://localhost:5173](http://localhost:5173)
+
+> **Pastikan backend sudah berjalan sebelum membuka admin panel.**
+
+## Konfigurasi
+
+- Endpoint backend diatur pada file utilitas axios (lihat `src/utils/axiosInstance.js`).
+- Untuk mengubah port, edit file `vite.config.js` atau gunakan flag saat menjalankan.
+
+## Catatan
+
+- Hanya admin yang dapat mengakses panel ini.
+- Jangan lupa untuk logout setelah selesai menggunakan aplikasi.

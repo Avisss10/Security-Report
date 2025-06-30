@@ -1,12 +1,58 @@
-# React + Vite
+# Security/Mobile - SECURITY REPORT
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikasi frontend untuk petugas security melakukan pelaporan harian. Dibangun dengan React + Vite + Tailwind CSS.
 
-Currently, two official plugins are available:
+## Fitur Utama
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Login:** Autentikasi user security (NIP & password).
+- **Dashboard:** Melihat daftar laporan harian dari cabang user dan laporan yang sudah dibuat.
+- **Buat Laporan:** Input laporan harian, upload foto (maksimal 5), dan review sebelum submit.
+- **Edit & Hapus Laporan:** Edit atau hapus laporan sendiri sebelum diverifikasi admin.
+- **Profile:** Melihat profil user security dan cabang.
+- **Logout:** Keluar dari aplikasi.
 
-## Expanding the ESLint configuration
+## Struktur Folder
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+security/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── styles/
+│   ├── utils/
+│   ├── App.jsx
+│   └── main.jsx
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+└── postcss.config.js
+```
+
+## Cara Menjalankan
+
+1. Masuk ke folder `security/`
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Jalankan aplikasi:
+   ```sh
+   npm run dev
+   ```
+4. Buka di browser: [http://localhost:5174](http://localhost:5174)
+
+> **Pastikan backend sudah berjalan sebelum membuka aplikasi security.**
+
+## Konfigurasi
+
+- Endpoint backend diatur pada file [`src/utils/axiosInstance.js`](src/utils/axiosInstance.js).
+- Untuk mengubah port, edit file `vite.config.js` atau gunakan flag saat menjalankan.
+
+## Catatan
+
+- Hanya user security (level 2) yang dapat login ke aplikasi ini.
+- Maksimal upload 5 foto per laporan.
+- Jika sesi login habis, user akan otomatis logout.
+- Jangan lupa logout setelah selesai menggunakan aplikasi.
